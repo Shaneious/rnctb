@@ -146,3 +146,11 @@ task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
 }
+
+// compile (project(':react-native-camera')) {
+//   exclude group: "com.google.android.gms"
+//   compile 'com.android.support:exifinterface:20.+'
+//   compile ('com.google.android.gms:play-services-vision:10.2.0') {
+//     force = true
+//   }
+// }
