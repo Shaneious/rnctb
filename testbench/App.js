@@ -18,6 +18,9 @@ import {
   TouchableOpacity,
   Linking,
   Platform,
+  Modal,
+  TouchableHighlight,
+  Alert,
 } from 'react-native';
 
 import QRCodeScanner from 'react-native-qrcode-scanner';
@@ -42,39 +45,64 @@ class App extends Component<Props> {
   }
 }
 
-export default class ScanScreen extends Component {
-  onSuccess(e) {
-    Linking
-      .openURL(e.data)
-      .catch(err => console.error('An error occured', err));
+export default class ModalExample extends Component {
+  state = {
+    modalVisible: false,
+  };
+
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
   }
 
   render() {
     return (
-      <QRCodeScanner
-        fkoff={"urmom"}
-        onRead={this.onSuccess.bind(this)}
-        topContent={
-          <Text style={styles.centerText}>
-            Go to <Text style={styles.textBold}>wikipedia.org/wiki/QR_code</Text> on your computer and scan the QR code.
-          </Text>
-        }
-        bottomContent={
-          <TouchableOpacity style={styles.buttonTouchable}>
-            <Text style={styles.buttonText}>OK. Got it!</Text>
-          </TouchableOpacity>
-        }
-      />
+      <View style={{marginTop: 22}}>
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+          }}>
+          <View>
+            <TouchableHighlight
+              onPress={() => {
+                this.setModalVisible(!this.state.modalVisible);
+              }}>
+              <Text>Hide Modal</Text>
+            </TouchableHighlight>
+          </View>
+          <View style={styles.qrcontainer}>
+            <QRCodeScanner
+              cameraStyle={styles.qrstyle}
+              showMarker={true}
+              markerStyle={{borderColor: '#aa00ff'}}
+              onRead={ (e) => (
+                alert(e.data)
+                ) } />
+          </View>
+        </Modal>
+        <TouchableHighlight
+          onPress={() => {
+            this.setModalVisible(true);
+          }}>
+          <Text>Show Modal</Text>
+        </TouchableHighlight>
+      </View>
     );
   }
 }
 
+
 const styles = StyleSheet.create({
-  container: {
+  qrstyle: {
+    height: 150,
+  },
+  qrcontainer: {
     flex: 1,
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
   },
   welcome: {
     fontSize: 20,

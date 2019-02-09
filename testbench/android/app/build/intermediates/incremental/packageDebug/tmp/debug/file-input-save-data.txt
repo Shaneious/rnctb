@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Fri Feb 08 15:20:17 EST 2019
+#Sat Feb 09 14:46:43 EST 2019
 5.base=C\:\\Users\\shaya\\Desktop\\rnctb\\testbench\\android\\app\\build\\intermediates\\transforms\\mergeJniLibs\\debug\\0
 42.base=C\:\\Users\\shaya\\Desktop\\rnctb\\testbench\\android\\app\\build\\intermediates\\transforms\\mergeJniLibs\\debug\\0
 22.path=lib/armeabi-v7a/libfb.so
