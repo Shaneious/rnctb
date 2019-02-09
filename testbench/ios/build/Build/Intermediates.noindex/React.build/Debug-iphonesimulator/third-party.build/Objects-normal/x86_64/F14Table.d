@@ -1,0 +1,26 @@
+dependencies: \
+  /Users/shayanghazi/Desktop/rnctb/testbench/node_modules/react-native/third-party/folly-2018.10.22.00/folly/container/detail/F14Table.cpp \
+  /Users/shayanghazi/Desktop/rnctb/testbench/node_modules/react-native/third-party/folly-2018.10.22.00/folly/container/detail/F14Table.h \
+  /Users/shayanghazi/Desktop/rnctb/testbench/node_modules/react-native/third-party/folly-2018.10.22.00/folly/Bits.h \
+  /Users/shayanghazi/Desktop/rnctb/testbench/node_modules/react-native/third-party/folly-2018.10.22.00/folly/lang/Bits.h \
+  /Users/shayanghazi/Desktop/rnctb/testbench/node_modules/react-native/third-party/folly-2018.10.22.00/folly/ConstexprMath.h \
+  /Users/shayanghazi/Desktop/rnctb/testbench/node_modules/react-native/third-party/folly-2018.10.22.00/folly/Portability.h \
+  /Users/shayanghazi/Desktop/rnctb/testbench/node_modules/react-native/third-party/folly-2018.10.22.00/folly/portability/Config.h \
+  /Users/shayanghazi/Desktop/rnctb/testbench/node_modules/react-native/third-party/folly-2018.10.22.00/folly/CPortability.h \
+  /Users/shayanghazi/Desktop/rnctb/testbench/node_modules/react-native/third-party/folly-2018.10.22.00/folly/Utility.h \
+  /Users/shayanghazi/Desktop/rnctb/testbench/node_modules/react-native/third-party/folly-2018.10.22.00/folly/Traits.h \
+  /Users/shayanghazi/Desktop/rnctb/testbench/node_modules/react-native/third-party/folly-2018.10.22.00/folly/lang/Assume.h \
+  /Users/shayanghazi/Desktop/rnctb/testbench/node_modules/react-native/third-party/folly-2018.10.22.00/folly/portability/Builtins.h \
+  /Users/shayanghazi/Desktop/rnctb/testbench/node_modules/react-native/third-party/folly-2018.10.22.00/folly/Likely.h \
+  /Users/shayanghazi/Desktop/rnctb/testbench/node_modules/react-native/third-party/folly-2018.10.22.00/folly/ScopeGuard.h \
+  /Users/shayanghazi/Desktop/rnctb/testbench/node_modules/react-native/third-party/folly-2018.10.22.00/folly/Preprocessor.h \
+  /Users/shayanghazi/Desktop/rnctb/testbench/node_modules/react-native/third-party/folly-2018.10.22.00/folly/lang/UncaughtExceptions.h \
+  /Users/shayanghazi/Desktop/rnctb/testbench/node_modules/react-native/third-party/folly-2018.10.22.00/folly/functional/ApplyTuple.h \
+  /Users/shayanghazi/Desktop/rnctb/testbench/node_modules/react-native/third-party/folly-2018.10.22.00/folly/functional/Invoke.h \
+  /Users/shayanghazi/Desktop/rnctb/testbench/node_modules/react-native/third-party/folly-2018.10.22.00/folly/lang/Align.h \
+  /Users/shayanghazi/Desktop/rnctb/testbench/node_modules/react-native/third-party/folly-2018.10.22.00/folly/lang/Exception.h \
+  /Users/shayanghazi/Desktop/rnctb/testbench/node_modules/react-native/third-party/folly-2018.10.22.00/folly/CppAttributes.h \
+  /Users/shayanghazi/Desktop/rnctb/testbench/node_modules/react-native/third-party/folly-2018.10.22.00/folly/lang/Launder.h \
+  /Users/shayanghazi/Desktop/rnctb/testbench/node_modules/react-native/third-party/folly-2018.10.22.00/folly/lang/SafeAssert.h \
+  /Users/shayanghazi/Desktop/rnctb/testbench/node_modules/react-native/third-party/folly-2018.10.22.00/folly/container/detail/F14Defaults.h \
+  /Users/shayanghazi/Desktop/rnctb/testbench/node_modules/react-native/third-party/folly-2018.10.22.00/folly/container/detail/F14IntrinsicsAvailability.h
