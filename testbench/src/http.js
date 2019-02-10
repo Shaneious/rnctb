@@ -23,7 +23,7 @@ export default class HelloWorldApp extends Component {
 
   render() {
     return (
-      <View style={{flex:1, justifyContent: 'flex-start'}}>
+      <View style={{backgroundColor: '#ffffff', flex:1, justifyContent: 'flex-start'}}>
         <Text>Sending to IP: 35.183.241.127</Text>
         <Button
           onPress={this.sendUserInformation.bind(this)}
