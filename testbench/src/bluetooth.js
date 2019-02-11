@@ -10,188 +10,223 @@ import {
   Platform,
   Alert
 } from 'react-native';
-import BleModule from './BleModule';
+//import BleModule from './BleModule';
+import { BleManager, BleErrorCode, Device } from 'react-native-ble-plx';
+import { Buffer } from 'buffer';
 
-global.BluetoothManager = new BleModule();
+//global.BluetoothManager = new BleModule();
 
 export default class App extends Component {
     constructor(props) {
         super(props);
         this.state={
-            scaning:false,
+            scanning:false,
             isConnected:false,
             text:'',
             writeData:'',
             receiveData:'',
             readData:'',
-            data:[],
+            discovered: [],
             isMonitoring:false
         }
         this.bluetoothReceiveData = [];
         this.deviceMap = new Map();
+        this.manager = new BleManager();
     }
 
     componentWillMount(){
-        this.onStateChangeListener = BluetoothManager.manager.onStateChange((state) => {
+        this.onStateChangeListener = this.manager.onStateChange((state) => {
             console.log("onStateChange: ", state);
             if(state == 'PoweredOn'){
-                this.scan();
+                //this.scan();
             }
         })
     }
 
     componentWillUnmount() {
-       BluetoothManager.destroy();
-       this.onStateChangeListener && this.onStateChangeListener.remove();
-       this.disconnectListener && this.disconnectListener.remove();
-       this.monitorListener && this.monitorListener.remove();
+       this.manager.destroy();
+       // this.onStateChangeListener && this.onStateChangeListener.remove();
+       // this.disconnectListener && this.disconnectListener.remove();
+       // this.monitorListener && this.monitorListener.remove();
     }
 
     alert(text){
-        Alert.alert('Alterted',text,[{ text:'Alerted',onPress:()=>{ } }]);
+        Alert.alert('Alert',text,[{ text:'Okay',onPress:()=>{ } }]);
     }
 
-    scan(){
-        if(!this.state.scaning) {
-            this.setState({scaning:true});
-            this.deviceMap.clear();
-            BluetoothManager.manager.startDeviceScan(null, null, (error, device) => {
-                if (error) {
-                    console.log('startDeviceScan error:',error)
-                    if(error.errorCode == 102){
-                        this.alert('Scan Alert');
-                    }
-                    this.setState({scaning:false});
-                }else{
-                    console.log(device.id,device.name);
-                    this.deviceMap.set(device.id,device);
-                    this.setState({data:[...this.deviceMap.values()]});
-                }
-            })
-            this.scanTimer && clearTimeout(this.scanTimer);
-            this.scanTimer = setTimeout(()=>{
-                if(this.state.scaning){
-                   BluetoothManager.stopScan();
-                   this.setState({scaning:false});
-                }
-            },1000)
-        }else {
-            BluetoothManager.stopScan();
-            this.setState({scaning:false});
-        }
-    }
-
-    connect(item){
-        if(this.state.scaning){
-            BluetoothManager.stopScan();
-            this.setState({scaning:false});
-        }
-        if(BluetoothManager.isConnecting){
-            console.log('connecting log...');
-            return;
-        }
-        let newData = [...this.deviceMap.values()];
-        newData[item.index].isConnecting = true;
-        this.setState({data:newData});
-        BluetoothManager.connect(item.item.id)
-            .then(device=>{
-                newData[item.index].isConnecting = false;
-                this.setState({data:[newData[item.index]], isConnected:true});
-                this.onDisconnect();
-            })
-            .catch(err=>{
-                newData[item.index].isConnecting = false;
-                this.setState({data:[...newData]});
-                this.alert(err);
-            })
-    }
-
-    read=(index)=>{
-        BluetoothManager.read(index)
-            .then(value=>{
-                this.setState({readData:value});
-            })
-            .catch(err=>{
-
-            })
-    }
-
-    write=(index,type)=>{
-        if(this.state.text.length == 0){
-            this.alert('write alert');
-            return;
-        }
-        BluetoothManager.write(this.state.text,index,type)
-            .then(characteristic=>{
-                this.bluetoothReceiveData = [];
-                this.setState({
-                    writeData:this.state.text,
-                    text:'',
-                })
-            })
-            .catch(err=>{
-
-            })
-    }
-
-    writeWithoutResponse=(index,type)=>{
-        if(this.state.text.length == 0){
-            this.alert('write w/o response alert');
-            return;
-        }
-        BluetoothManager.writeWithoutResponse(this.state.text,index,type)
-            .then(characteristic=>{
-                this.bluetoothReceiveData = [];
-                this.setState({
-                    writeData:this.state.text,
-                    text:'',
-                })
-            })
-            .catch(err=>{
-
-            })
-    }
-
-    monitor=(index)=>{
-        let transactionId = 'monitor';
-        this.monitorListener = BluetoothManager.manager.monitorCharacteristicForDevice(BluetoothManager.peripheralId,
-            BluetoothManager.nofityServiceUUID[index],BluetoothManager.nofityCharacteristicUUID[index],
-            (error, characteristic) => {
-                if (error) {
-                    this.setState({isMonitoring:false});
-                    console.log('monitor fail:',error);
-                    this.alert('monitor fail: ' + error.reason);
-                }else{
-                    this.setState({isMonitoring:true});
-                    this.bluetoothReceiveData.push(characteristic.value);
-                    this.setState({receiveData:this.bluetoothReceiveData.join('')})
-                    console.log('monitor success',characteristic.value);
-                }
-
-            }, transactionId)
-    }
-
-    onDisconnect(){
-        this.disconnectListener = BluetoothManager.manager.onDeviceDisconnected(BluetoothManager.peripheralId,(error,device)=>{
-            if(error){
-                console.log('onDeviceDisconnected','device disconnect',error);
-                this.setState({data:[...this.deviceMap.values()],isConnected:false});
-            }else{
-                this.disconnectListener && this.disconnectListener.remove();
-                console.log('onDeviceDisconnected','device disconnect',device.id,device.name);
+    scan() {
+      if(!this.state.scanning) {
+        this.setState({scanning:true});
+        this.manager.startDeviceScan(null, null, (error, device) => {
+          if (error) {
+            console.log('startDeviceScan error:',error);
+            if (error.errorCode == BleErrorCode.BluetoothPoweredOff) {
+              this.alert('Please enable Bluetooth on your device and retry');
             }
-        })
+            this.setState({scanning:false});
+          } else {
+            this.deviceMap.set(device.id,device);
+            this.setState({discovered:[...this.deviceMap.values()]});
+          }
+        });
+        this.scanTimer && clearTimeout(this.scanTimer);
+        this.scanTimer = setTimeout(()=>{
+          if(this.state.scanning){
+             this.manager.stopDeviceScan();
+             this.setState({scanning:false});
+             alert("scanning finished");
+          }
+        }, 1000);
+      }
+      else {
+        this.manager.stopDeviceScan();
+        this.setState({scanning:false});
+      }
     }
+    // scan(){
+    //     if(!this.state.scanning) {
+    //         this.setState({scanning:true});
+    //         this.deviceMap.clear();
+    //         BluetoothManager.manager.startDeviceScan(null, null, (error, device) => {
+    //             if (error) {
+    //                 console.log('startDeviceScan error:',error)
+    //                 if(error.errorCode == 102){
+    //                     this.alert('Please enable Bluetooth on your device and retry22');
+    //                 }
+    //                 this.setState({scanning:false});
+    //             } else{
+    //                 console.log(device.id,device.name);
+    //                 //extra = device.name==null?"":device.name;
+    //                 this.deviceMap.set(device.id,device);
+    //                 this.setState({data:[...this.deviceMap.values()]});
+    //             }
+    //         })
+    //         this.scanTimer && clearTimeout(this.scanTimer);
+    //         this.scanTimer = setTimeout(()=>{
+    //             if(this.state.scanning){
+    //                BluetoothManager.stopScan();
+    //                this.setState({scanning:false});
+    //                alert("scanning finished");
+    //             }
+    //         },1000)
+    //     }else {
+    //         BluetoothManager.stopScan();
+    //         this.setState({scanning:false});
+    //     }
+    // }
 
-    disconnect(){
-        BluetoothManager.disconnect()
-            .then(res=>{
-                this.setState({data:[...this.deviceMap.values()],isConnected:false});
-            })
-            .catch(err=>{
-                this.setState({data:[...this.deviceMap.values()],isConnected:false});
-            })
-    }
+    //
+    // connect(item){
+    //     if(this.state.scanning){
+    //         BluetoothManager.stopScan();
+    //         this.setState({scanning:false});
+    //     }
+    //     if(BluetoothManager.isConnecting){
+    //         console.log('connecting log...');
+    //         return;
+    //     }
+    //     let newData = [...this.deviceMap.values()];
+    //     newData[item.index].isConnecting = true;
+    //     this.setState({data:newData});
+    //     BluetoothManager.connect(item.item.id)
+    //         .then(device=>{
+    //             newData[item.index].isConnecting = false;
+    //             this.setState({data:[newData[item.index]], isConnected:true});
+    //             this.onDisconnect();
+    //         })
+    //         .catch(err=>{
+    //             newData[item.index].isConnecting = false;
+    //             this.setState({data:[...newData]});
+    //             this.alert(err);
+    //         })
+    // }
+    //
+    // read=(index)=>{
+    //     BluetoothManager.read(index)
+    //         .then(value=>{
+    //             this.setState({readData:value});
+    //         })
+    //         .catch(err=>{
+    //
+    //         })
+    // }
+    //
+    // write=(index,type)=>{
+    //     if(this.state.text.length == 0){
+    //         this.alert('write alert');
+    //         return;
+    //     }
+    //     BluetoothManager.write(this.state.text,index,type)
+    //         .then(characteristic=>{
+    //             this.bluetoothReceiveData = [];
+    //             this.setState({
+    //                 writeData:this.state.text,
+    //                 text:'',
+    //             })
+    //         })
+    //         .catch(err=>{
+    //
+    //         })
+    // }
+    //
+    // writeWithoutResponse=(index,type)=>{
+    //     if(this.state.text.length == 0){
+    //         this.alert('write w/o response alert');
+    //         return;
+    //     }
+    //     BluetoothManager.writeWithoutResponse(this.state.text,index,type)
+    //         .then(characteristic=>{
+    //             this.bluetoothReceiveData = [];
+    //             this.setState({
+    //                 writeData:this.state.text,
+    //                 text:'',
+    //             })
+    //         })
+    //         .catch(err=>{
+    //
+    //         })
+    // }
+    //
+    // monitor=(index)=>{
+    //     let transactionId = 'monitor';
+    //     this.monitorListener = BluetoothManager.manager.monitorCharacteristicForDevice(BluetoothManager.peripheralId,
+    //         BluetoothManager.nofityServiceUUID[index],BluetoothManager.nofityCharacteristicUUID[index],
+    //         (error, characteristic) => {
+    //             if (error) {
+    //                 this.setState({isMonitoring:false});
+    //                 console.log('monitor fail:',error);
+    //                 this.alert('monitor fail: ' + error.reason);
+    //             }else{
+    //                 this.setState({isMonitoring:true});
+    //                 this.bluetoothReceiveData.push(characteristic.value);
+    //                 this.setState({receiveData:this.bluetoothReceiveData.join('')})
+    //                 console.log('monitor success',characteristic.value);
+    //             }
+    //
+    //         }, transactionId)
+    // }
+    //
+    // onDisconnect(){
+    //     this.disconnectListener = BluetoothManager.manager.onDeviceDisconnected(BluetoothManager.peripheralId,(error,device)=>{
+    //         if(error){
+    //             console.log('onDeviceDisconnected','device disconnect',error);
+    //             this.setState({data:[...this.deviceMap.values()],isConnected:false});
+    //         }else{
+    //             this.disconnectListener && this.disconnectListener.remove();
+    //             console.log('onDeviceDisconnected','device disconnect',device.id,device.name);
+    //         }
+    //     })
+    // }
+    //
+    // disconnect(){
+    //     BluetoothManager.disconnect()
+    //         .then(res=>{
+    //             this.setState({data:[...this.deviceMap.values()],isConnected:false});
+    //         })
+    //         .catch(err=>{
+    //             this.setState({data:[...this.deviceMap.values()],isConnected:false});
+    //         })
+    // }
 
     renderItem=(item)=>{
         let data = item.item;
@@ -218,11 +253,11 @@ export default class App extends Component {
                     activeOpacity={0.7}
                     style={[styles.buttonView,{marginHorizontal:10,height:40,alignItems:'center'}]}
                     onPress={this.state.isConnected?this.disconnect.bind(this):this.scan.bind(this)}>
-                    <Text style={styles.buttonText}>{this.state.scaning?'Searching in':this.state.isConnected?'Disconnect Bluetooth':'Search Bluetooth'}</Text>
+                    <Text style={styles.buttonText}>{this.state.scanning?'Searching in':this.state.isConnected?'Disconnect Bluetooth':'Scan for Devices3'}</Text>
                 </TouchableOpacity>
 
                 <Text style={{marginLeft:10,marginTop:10}}>
-                    {this.state.isConnected?'currently connected device':'Available Device'}
+                    {this.state.isConnected?'Currently connected device':'Available Devices'}
                 </Text>
             </View>
         )
@@ -312,10 +347,10 @@ export default class App extends Component {
                 <FlatList
                     renderItem={this.renderItem}
                     keyExtractor={item=>item.id}
-                    data={this.state.data}
+                    data={this.state.discovered}
                     ListHeaderComponent={this.renderHeader}
                     ListFooterComponent={this.renderFooter}
-                    extraData={[this.state.isConnected,this.state.text,this.state.receiveData,this.state.readData,this.state.writeData,this.state.isMonitoring,this.state.scaning]}
+                    extraData={[this.state.isConnected,this.state.text,this.state.receiveData,this.state.readData,this.state.writeData,this.state.isMonitoring,this.state.scanning]}
                     keyboardShouldPersistTaps='handled'
                 />
             </View>

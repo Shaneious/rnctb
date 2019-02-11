@@ -4,7 +4,7 @@
  */
 
 import {AppRegistry} from 'react-native';
-import App from './src/http';
+import App from './src/bluetooth';
 import {name as appName} from './app.json';
 
 AppRegistry.registerComponent(appName, () => App);
