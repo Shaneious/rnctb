@@ -69,7 +69,7 @@ export default class ModalExample extends Component {
               onPress={() => {
                 this.setModalVisible(!this.state.modalVisible);
               }}>
-              <Text>Hide Modal</Text>
+              <Text style={{color:'blue', fontWeight:'bold'}}>Hide Scanner</Text>
             </TouchableHighlight>
           </View>
           <View style={styles.qrcontainer}>
@@ -86,7 +86,7 @@ export default class ModalExample extends Component {
           onPress={() => {
             this.setModalVisible(true);
           }}>
-          <Text>Show Modal</Text>
+          <Text style={{color:'blue', fontWeight:'bold'}}>Show Scanner</Text>
         </TouchableHighlight>
       </View>
     );

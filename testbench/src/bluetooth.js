@@ -8,7 +8,8 @@ import {
   FlatList,
   TextInput,
   Platform,
-  Alert
+  Alert,
+  Button,
 } from 'react-native';
 //import BleModule from './BleModule';
 import { BleManager, BleErrorCode, Device } from 'react-native-ble-plx';

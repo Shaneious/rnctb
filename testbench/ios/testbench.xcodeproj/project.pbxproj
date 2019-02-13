@@ -44,6 +44,7 @@
 		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
 		ED2971652150620600B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED2971642150620600B7C4FE /* JavaScriptCore.framework */; };
 		B9052B8997274DEF871FD054 /* libBleManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E6C0EAA3D7B4ADEAADAE05A /* libBleManager.a */; };
+		E8D9FA4A1FEB40F18052A54C /* libRNGestureHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C378A95258AC45DF9A76146C /* libRNGestureHandler.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -382,6 +383,8 @@
 		F41111FB0BB24E04A9B9DF49 /* ReactNativePermissions.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ReactNativePermissions.xcodeproj; path = "../node_modules/react-native-permissions/ios/ReactNativePermissions.xcodeproj"; sourceTree = "<group>"; };
 		6A8196A80E7A419DA81D9F75 /* BleManager.xcodeproj */ = {isa = PBXFileReference; name = "BleManager.xcodeproj"; path = "../node_modules/react-native-ble-manager/ios/BleManager.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		9E6C0EAA3D7B4ADEAADAE05A /* libBleManager.a */ = {isa = PBXFileReference; name = "libBleManager.a"; path = "libBleManager.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		C38CDF0AEFEE4BF3B0B363A8 /* RNGestureHandler.xcodeproj */ = {isa = PBXFileReference; name = "RNGestureHandler.xcodeproj"; path = "../node_modules/react-native-gesture-handler/ios/RNGestureHandler.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		C378A95258AC45DF9A76146C /* libRNGestureHandler.a */ = {isa = PBXFileReference; name = "libRNGestureHandler.a"; path = "libRNGestureHandler.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -414,6 +417,7 @@
 				E96B940821FF46168C25EB03 /* libReactNativePermissions.a in Frameworks */,
 				C498D8775B54435AAC6AA265 /* libBleClient.a in Frameworks */,
 				B9052B8997274DEF871FD054 /* libBleManager.a in Frameworks */,
+				E8D9FA4A1FEB40F18052A54C /* libRNGestureHandler.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -641,6 +645,7 @@
 				F41111FB0BB24E04A9B9DF49 /* ReactNativePermissions.xcodeproj */,
 				32A1AE73FF8340108EFCD5AE /* BleClient.xcodeproj */,
 				6A8196A80E7A419DA81D9F75 /* BleManager.xcodeproj */,
+				C38CDF0AEFEE4BF3B0B363A8 /* RNGestureHandler.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1303,12 +1308,14 @@
 					"$(SRCROOT)..\node_modules\neact-native-permissionsios/**",
 					"$(SRCROOT)..\node_modules\neact-native-ble-plxios/**",
 					"$(SRCROOT)\..\node_modules\react-native-ble-manager\ios",
+					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
 				);
 				INFOPLIST_FILE = testbenchTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1336,12 +1343,14 @@
 					"$(SRCROOT)..\node_modules\neact-native-permissionsios/**",
 					"$(SRCROOT)..\node_modules\neact-native-ble-plxios/**",
 					"$(SRCROOT)\..\node_modules\react-native-ble-manager\ios",
+					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
 				);
 				INFOPLIST_FILE = testbenchTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1370,6 +1379,7 @@
 					"$(SRCROOT)..\node_modules\neact-native-permissionsios/**",
 					"$(SRCROOT)..\node_modules\neact-native-ble-plxios/**",
 					"$(SRCROOT)\..\node_modules\react-native-ble-manager\ios",
+					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
 				);
 				INFOPLIST_FILE = testbench/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1399,6 +1409,7 @@
 					"$(SRCROOT)..\node_modules\neact-native-permissionsios/**",
 					"$(SRCROOT)..\node_modules\neact-native-ble-plxios/**",
 					"$(SRCROOT)\..\node_modules\react-native-ble-manager\ios",
+					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
 				);
 				INFOPLIST_FILE = testbench/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1433,11 +1444,13 @@
 					"$(SRCROOT)..\node_modules\neact-native-permissionsios/**",
 					"$(SRCROOT)..\node_modules\neact-native-ble-plxios/**",
 					"$(SRCROOT)\..\node_modules\react-native-ble-manager\ios",
+					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
 				);
 				INFOPLIST_FILE = "testbench-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1473,11 +1486,13 @@
 					"$(SRCROOT)..\node_modules\neact-native-permissionsios/**",
 					"$(SRCROOT)..\node_modules\neact-native-ble-plxios/**",
 					"$(SRCROOT)\..\node_modules\react-native-ble-manager\ios",
+					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
 				);
 				INFOPLIST_FILE = "testbench-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1512,11 +1527,13 @@
 					"$(SRCROOT)..\node_modules\neact-native-permissionsios/**",
 					"$(SRCROOT)..\node_modules\neact-native-ble-plxios/**",
 					"$(SRCROOT)\..\node_modules\react-native-ble-manager\ios",
+					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
 				);
 				INFOPLIST_FILE = "testbench-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1551,11 +1568,13 @@
 					"$(SRCROOT)..\node_modules\neact-native-permissionsios/**",
 					"$(SRCROOT)..\node_modules\neact-native-ble-plxios/**",
 					"$(SRCROOT)\..\node_modules\react-native-ble-manager\ios",
+					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
 				);
 				INFOPLIST_FILE = "testbench-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
